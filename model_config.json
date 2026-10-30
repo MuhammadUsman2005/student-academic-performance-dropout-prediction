@@ -1,0 +1,51 @@
+{
+    "project_name": "Student Academic Performance & Dropout Risk Prediction",
+    "prediction_task": "Course withdrawal after Day 30",
+    "model": "Random Forest",
+    "threshold": 0.51,
+    "positive_class": "Withdrawn",
+    "negative_class": "Not Withdrawn",
+    "prediction_day": 30,
+    "categorical_features": [
+        "code_module",
+        "code_presentation",
+        "gender",
+        "region",
+        "highest_education",
+        "imd_band",
+        "age_band",
+        "disability"
+    ],
+    "numerical_features": [
+        "num_of_prev_attempts",
+        "studied_credits",
+        "date_registration",
+        "early_assessment_count",
+        "early_total_weight",
+        "early_avg_submission_day",
+        "unemployment_rate"
+    ],
+    "selected_features": [
+        "code_module",
+        "code_presentation",
+        "gender",
+        "region",
+        "highest_education",
+        "imd_band",
+        "age_band",
+        "disability",
+        "num_of_prev_attempts",
+        "studied_credits",
+        "date_registration",
+        "early_assessment_count",
+        "early_total_weight",
+        "early_avg_submission_day",
+        "unemployment_rate"
+    ],
+    "limitations": [
+        "Predicts course withdrawal, not university degree dropout.",
+        "Trained on historical OULAD data.",
+        "Unemployment feature is unavailable for some regions.",
+        "Predictions must not be used as automatic academic decisions."
+    ]
+}
