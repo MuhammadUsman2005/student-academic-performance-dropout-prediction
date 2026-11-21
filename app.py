@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -134,6 +133,28 @@ hr {
         padding: 1rem 0.85rem 0.8rem;
     }
 }
+
+/* Force readable white text on the prediction button */
+[data-testid="stFormSubmitButton"] button,
+[data-testid="stFormSubmitButton"] button *,
+[data-testid="stFormSubmitButton"] button p,
+[data-testid="stFormSubmitButton"] button span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-testid="stFormSubmitButton"] button:hover,
+[data-testid="stFormSubmitButton"] button:hover * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-testid="stFormSubmitButton"] button:focus,
+[data-testid="stFormSubmitButton"] button:focus * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
