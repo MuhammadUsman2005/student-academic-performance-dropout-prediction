@@ -15,9 +15,133 @@ st.set_page_config(
     layout="wide"
 )
 
+# --------------------------------------------------
+# PROFESSIONAL LIGHT THEME - UI STYLING ONLY
+# --------------------------------------------------
+
+st.markdown("""
+<style>
+:root {
+    color-scheme: light;
+}
+
+.stApp {
+    background: linear-gradient(
+        180deg,
+        #f1f6fd 0%,
+        #ffffff 45%,
+        #f5f8fc 100%
+    );
+    color: #17243a;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.block-container {
+    max-width: 1120px;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+}
+
+h1 {
+    color: #15345b !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.035em;
+    line-height: 1.2 !important;
+}
+
+h2, h3 {
+    color: #1c426d !important;
+    font-weight: 700 !important;
+}
+
+p, label {
+    color: #465970;
+}
+
+[data-testid="stAlert"] {
+    border-radius: 14px;
+    border: 1px solid #dce6f2;
+    box-shadow: 0 4px 14px rgba(31, 58, 95, 0.05);
+}
+
+[data-testid="stForm"] {
+    background: #ffffff;
+    border: 1px solid #e1e9f3;
+    border-radius: 18px;
+    padding: 1.5rem 1.5rem 1rem;
+    box-shadow: 0 8px 28px rgba(30, 55, 90, 0.07);
+}
+
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stNumberInput"] > div > div {
+    border-radius: 10px;
+    border-color: #d5dfeb;
+    background: #fbfdff;
+}
+
+[data-testid="stFormSubmitButton"] button {
+    min-height: 3.1rem;
+    border: none;
+    border-radius: 11px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #1769aa, #2454a6);
+    box-shadow: 0 5px 14px rgba(30, 91, 160, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-testid="stFormSubmitButton"] button:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(30, 91, 160, 0.25);
+}
+
+[data-testid="stMetric"] {
+    background: #ffffff;
+    border: 1px solid #e1e9f3;
+    border-radius: 15px;
+    padding: 1.1rem 1.2rem;
+    box-shadow: 0 5px 18px rgba(30, 55, 90, 0.055);
+}
+
+[data-testid="stMetricValue"] {
+    color: #174f87;
+    font-weight: 800;
+}
+
+[data-testid="stHorizontalBlock"] {
+    gap: 1.25rem;
+}
+
+hr {
+    border-color: #e3eaf2;
+}
+
+[data-testid="stCaptionContainer"] {
+    color: #718096;
+}
+
+@media (max-width: 700px) {
+    .block-container {
+        padding: 1.2rem 1rem 2rem;
+    }
+
+    [data-testid="stForm"] {
+        padding: 1rem 0.85rem 0.8rem;
+    }
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 @st.cache_resource
 def load_model():
     return joblib.load(BASE_DIR / "model.joblib")
+
 
 @st.cache_data
 def load_resources():
@@ -36,10 +160,17 @@ def load_resources():
 
     return config, options, region_mapping, unemployment
 
+
 model = load_model()
 config, options, region_mapping, unemployment = load_resources()
 
-st.title("Student Academic Performance & Withdrawal Risk Prediction")
+
+# --------------------------------------------------
+# APPLICATION HEADER
+# --------------------------------------------------
+
+st.title("🎓 Student Academic Performance & Withdrawal Risk Prediction")
+
 st.write(
     "An educational machine learning application that estimates "
     "the probability of course withdrawal after Day 30."
@@ -51,7 +182,12 @@ st.info(
     "and should not be used for automatic academic decisions."
 )
 
-st.subheader("Student Information")
+
+# --------------------------------------------------
+# STUDENT INFORMATION FORM
+# --------------------------------------------------
+
+st.subheader("📋 Student Information")
 
 with st.form("student_form"):
 
@@ -123,7 +259,7 @@ with st.form("student_form"):
             step=1
         )
 
-        st.markdown("**First 30 Days: Assessment Activity**")
+        st.markdown("**📚 First 30 Days: Assessment Activity**")
 
         early_assessment_count = st.number_input(
             "Assessments Submitted",
@@ -150,9 +286,14 @@ with st.form("student_form"):
         )
 
     submitted = st.form_submit_button(
-        "Predict Withdrawal Risk",
+        "🔍 Predict Withdrawal Risk",
         use_container_width=True
     )
+
+
+# --------------------------------------------------
+# PREDICTION
+# --------------------------------------------------
 
 if submitted:
 
@@ -207,7 +348,8 @@ if submitted:
     at_risk = risk_probability >= threshold
 
     st.divider()
-    st.subheader("Prediction Result")
+
+    st.subheader("📊 Prediction Result")
 
     left, right = st.columns(2)
 
@@ -230,11 +372,11 @@ if submitted:
         )
     else:
         st.success(
-            "Lower predicted course withdrawal risk "
+            "✅ Lower predicted course withdrawal risk "
             "based on the selected threshold."
         )
 
-    st.subheader("Prediction Probability Chart")
+    st.subheader("📈 Prediction Probability Chart")
 
     chart_data = pd.DataFrame({
         "Outcome": ["Not Withdrawn", "Withdrawn"],
@@ -246,7 +388,7 @@ if submitted:
 
     st.bar_chart(chart_data)
 
-    st.subheader("External Data Information")
+    st.subheader("🌍 External Data Information")
 
     if pd.isna(unemployment_rate):
         st.write(
@@ -266,7 +408,13 @@ if submitted:
         "not generalize to other universities or student populations."
     )
 
+
+# --------------------------------------------------
+# FOOTER
+# --------------------------------------------------
+
 st.divider()
+
 st.caption(
     "Machine Learning CCP Project | "
     "Student Academic Performance & Dropout Risk Prediction"
